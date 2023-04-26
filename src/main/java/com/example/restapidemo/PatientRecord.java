@@ -1,4 +1,4 @@
-package com.example.resteapidemo;
+package com.example.restapidemo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

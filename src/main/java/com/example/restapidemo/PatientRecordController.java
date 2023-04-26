@@ -1,8 +1,7 @@
-package com.example.resteapidemo;
+package com.example.restapidemo;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +10,7 @@ import java.util.Optional;
 @RequestMapping(value = "/patient")
 public class PatientRecordController {
 
-    private PatientRecordRepository patientRecordRepository;
+    private final PatientRecordRepository patientRecordRepository;
 
     public PatientRecordController(PatientRecordRepository patientRecordRepository) {
         this.patientRecordRepository = patientRecordRepository;
@@ -40,7 +39,7 @@ public class PatientRecordController {
 
         Optional<PatientRecord> optionalRecord = patientRecordRepository.findById(patientRecord.getPatientId());
         if (optionalRecord.isEmpty()) {
-            throw new EntityNotFoundException("Patient with ID " + patientRecord.getPatientId() + " does not exist.");
+            throw new NotFoundException("Patient with ID " + patientRecord.getPatientId() + " does not exist.");
         }
 
         PatientRecord existingPatientRecord = optionalRecord.get();
@@ -55,7 +54,7 @@ public class PatientRecordController {
     @DeleteMapping(value = "{patientId}")
     public void deletePatientById(@PathVariable(value = "patientId") Long patientId) {
         if (patientRecordRepository.findById(patientId).isEmpty()) {
-            throw new EntityNotFoundException("Patient with ID " + patientId + " does not exist.");
+            throw new NotFoundException("Patient with ID " + patientId + " does not exist.");
         }
         patientRecordRepository.deleteById(patientId);
     }
